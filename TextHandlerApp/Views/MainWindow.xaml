@@ -1,0 +1,153 @@
+﻿<Window x:Class="TextHandlerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:TextHandlerApp.Views.Validation"
+        Title="TextHandler"     
+        Height="650" Width="500"
+        MinHeight="350" MinWidth="600"
+        MaxHeight="1000" MaxWidth="600">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </Window.Resources>
+    <Grid Style="{StaticResource MainGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="224*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+
+        <!--Меню-->
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem
+                    Header="Exit" 
+                    Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem
+                Header="Info" 
+                Command="{Binding ShowInfoCommand}"/>
+        </Menu>
+
+        <!--Панель отображения хода выполнения обрабокти текстового файла-->
+        <StackPanel
+            Name="ProcessingPanel"
+            Style="{StaticResource ProcessingPanel}"
+            Grid.Row="2"
+            Visibility="{Binding ProgressBarVisibility, Converter={StaticResource BoolToVisConverter}}">
+            <TextBlock 
+                Text="Processing..."
+                HorizontalAlignment="Center"/>
+            <ProgressBar Style="{StaticResource ProgressBar}"/>
+        </StackPanel>
+
+        <!--Панель взаимодействия с пользователем-->
+        <Border Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Кнопка добавить-->
+                <Border
+                    Grid.Column="0"
+                    Style="{StaticResource BaseBorderStyle}">
+                    <Button
+                        Grid.Column="0"
+                        Command="{Binding AddDocumentCommand}">
+                        <StackPanel>
+                            <Image Source="Resources\Icons\AddIcon.png" Style="{StaticResource ButtonImageStyle}"/>
+                            <TextBlock Text="Add" Style="{StaticResource ButtonTextBlockStyle}"/>
+                        </StackPanel>
+                    </Button>
+                </Border>
+
+                <!--Кнопка удалить-->
+                <Border
+                    Grid.Column="2"
+                    Style="{StaticResource BaseBorderStyle}">
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding RemoveDocumentCommand}"
+                        CommandParameter="{Binding SelectedDocument}">
+                        <StackPanel>
+                            <Image Source="Resources\Icons\RemoveIcon.png" Style="{StaticResource ButtonImageStyle}"/>
+                            <TextBlock Text="Remove" Style="{StaticResource ButtonTextBlockStyle}"/>
+                        </StackPanel>
+                    </Button>
+                </Border>
+
+                <!--Настройки обработки-->
+                <Border
+                    Grid.Column="1"
+                    Style="{StaticResource BaseBorderStyle}">
+                    <StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal">
+
+                            <!--Установка минимально допустимого количества символов в слове-->
+                            <TextBlock
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="Min word length in symbols:"/>
+                            <TextBox
+                                x:Name="MinWordTxtBx"
+                                Style="{StaticResource BaseTextBoxStyle}"
+                                Text="{Binding Path=MinWordLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Behaviors>
+                                    <local:TextBoxValidationBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+
+                        <!--Установка обработки знаков препинания-->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="Remove punctuation marks:"/>
+                            <CheckBox
+                                x:Name="PunctuationMarksChkBx"
+                                IsChecked="{Binding Path=RemovePunctuationMarks, Mode=TwoWay}"
+                                Margin="10 15 0 0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!--Список документов-->
+        <Border
+            Grid.Row="2"
+            Style="{StaticResource BaseBorderStyle}">
+            <ListView
+                x:Name="listOfDocuments"
+                ItemsSource="{Binding Documents}"
+                SelectedItem="{Binding SelectedDocument}"
+                Visibility="{Binding DocumentsVisibility, Converter={StaticResource BoolToVisConverter}}">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header=" Name" DisplayMemberBinding="{Binding Name}" Width="120"/>
+                        <GridViewColumn Header=" Type" DisplayMemberBinding="{Binding Type}" Width="60"/>
+                        <GridViewColumn Header=" Size" DisplayMemberBinding="{Binding Size}" Width="100"/>
+                        <GridViewColumn Header=" Path" DisplayMemberBinding="{Binding Path}" Width="280"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!--Кнопка обработки-->
+        <Button
+            Grid.Row="3"
+            Content="Proceed"
+            FontSize="16"
+            Command="{Binding ProceedCommand}">
+        </Button>
+    </Grid>
+</Window>

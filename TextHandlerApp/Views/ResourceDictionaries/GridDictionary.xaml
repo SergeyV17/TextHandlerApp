@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:TextHandlerApp.Views.ResourceDictionaries">
+    <!--MainGrid-->
+    <Style TargetType="Grid" x:Key="MainGridStyle">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=ProcessingPanel, Path=Visibility}" Value="Visible">
+                <Setter Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

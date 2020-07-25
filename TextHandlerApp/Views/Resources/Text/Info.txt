@@ -1,0 +1,11 @@
+Word processing program.
+
+To get started, add files and click the "Proceed" button.
+
+For more detailed configuration use the options panel which includes:
+— Removing words containing less than a specified number of characters 
+— Removing punctuation marks
+
+This program only works with .txt file format.
+
+Enjoy!
