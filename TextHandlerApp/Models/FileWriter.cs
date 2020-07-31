@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using TextHandlerApp.Interfaces;
 
 namespace TextHandlerApp.Models
@@ -13,15 +12,12 @@ namespace TextHandlerApp.Models
         /// Метод записи коллекции строк в файл .txt формата
         /// </summary>
         /// <param name="path">путь к файлу</param>
-        /// <param name="lines">коллекция строк для записи в файл</param>
-        public void Write(string path, List<string> lines)
+        /// <param name="line">строка для записи в файл</param>
+        public void Write(string path, string line)
         {
-            using (StreamWriter sw = new StreamWriter(path))
+            using (StreamWriter sw = new StreamWriter(path, append: true))
             {
-                foreach (var line in lines)
-                {
-                    sw.WriteLine(line);
-                }
+                sw.WriteLine(line);
             }
         }
     }

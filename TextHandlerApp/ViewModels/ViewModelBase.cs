@@ -16,10 +16,7 @@ namespace TextHandlerApp.ViewModels
         /// <param name="propertyName">наименование свойства</param>
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

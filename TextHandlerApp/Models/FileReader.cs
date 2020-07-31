@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using TextHandlerApp.Interfaces;
 
@@ -13,20 +13,21 @@ namespace TextHandlerApp.Models
         /// Метод считывания текста с файла .txt формата
         /// </summary>
         /// <param name="path">путь к файлу</param>
+        /// <param name="textLineHandler">метод обработки текущей строки</param>
         /// <returns>список считанных строк</returns>
-        public List<string> Read(string path)
+        public void Read(string path, Action<string> textLineHandler)
         {
-            List<string> lines = new List<string>();
-
-            using (StreamReader sr = new StreamReader(path))
+            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                while (!sr.EndOfStream)
+                using (StreamReader sr = new StreamReader(path))
                 {
-                    lines.Add(sr.ReadLine());
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        textLineHandler?.Invoke(line);
+                    }
                 }
             }
-
-            return lines;
         }
     }
 }

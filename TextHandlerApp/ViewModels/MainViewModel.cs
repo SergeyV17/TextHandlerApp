@@ -17,12 +17,12 @@ namespace TextHandlerApp.ViewModels
     class MainViewModel : ViewModelBase
     {
         IDialogService dialogService; // сервис работы с диалоговыми окнами
-        IFileHandler fileHandlerService; // сервис работы с обработчиком файлов
+        ITextHandler textHandlerService; // сервис работы с обработчиком файлов
         IInfoFileService infoFileService; // сервис работы с информационным файлом
 
         private readonly MainWindow mainWindow; // Главное окно (для передачи в параметры вызова MessageBox.Show())
 
-        private bool success; // отчет об успешной операции обработки ( не получилось сделать через Worker.CancelAsync();
+        private bool success; // отчет об успешной операции обработки (не получилось сделать через Worker.CancelAsync();)
 
         public ObservableCollection<Document> Documents { get; set; } // Коллекция документов
 
@@ -47,20 +47,19 @@ namespace TextHandlerApp.ViewModels
         /// <param name="DialogService">сервис работы с диалоговыми окнами</param>
         /// <param name="FileHandlerService">сервис работы с обработчиком файлов</param>
         /// <param name="InfoFile">сервис работы с информационным файлом</param>
-        public MainViewModel(MainWindow MainWindow, IDialogService DialogService, IFileHandler FileHandlerService, IInfoFileService InfoFile)
+        public MainViewModel(MainWindow MainWindow, IDialogService DialogService, ITextHandler FileHandlerService, IInfoFileService InfoFile)
         {
             this.mainWindow = MainWindow;
             this.dialogService = DialogService;
-            this.fileHandlerService = FileHandlerService;
+            this.textHandlerService = FileHandlerService;
             this.infoFileService = InfoFile;
 
             Documents = new ObservableCollection<Document>();
 
             // Инициализация BackgroundWorker для реализации многопоточности
-            this.Worker = new BackgroundWorker();
+            this.Worker = new BackgroundWorker { WorkerReportsProgress = true };
             this.Worker.DoWork += Worker_DoWork;
             this.Worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            this.Worker.WorkerSupportsCancellation = true;
 
             // Инициализация значений по умолчанию для свойств отвечающих за параметры обработки текста
             MinWordLength = 5;
@@ -212,7 +211,7 @@ namespace TextHandlerApp.ViewModels
             try
             {
                 // Обработка документа(документов)
-                fileHandlerService.HandleDocuments(Documents.ToList(), dialogService.FolderPath, RemovePunctuationMarks, MinWordLength);
+                textHandlerService.HandleDocuments(Documents.ToList(), dialogService.FolderPath, new Options(RemovePunctuationMarks, MinWordLength));
             }
             catch (Exception ex)
             {

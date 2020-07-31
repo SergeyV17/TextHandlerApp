@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace TextHandlerApp.Interfaces
 {
@@ -11,7 +11,7 @@ namespace TextHandlerApp.Interfaces
         /// Метод записи в файл
         /// </summary>
         /// <param name="path">путь к файлу</param>
-        /// <param name="lines">строки, которые будут записаны в файл</param>
-        void Write(string path, List<string> lines);
+        /// <param name="line">строка для записи в файл</param>
+        void Write(string path, string line);
     }
 }

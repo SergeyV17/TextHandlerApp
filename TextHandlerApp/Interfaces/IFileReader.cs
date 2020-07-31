@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace TextHandlerApp.Interfaces
 {
@@ -10,8 +10,8 @@ namespace TextHandlerApp.Interfaces
         /// <summary>
         /// Метод считывания файла
         /// </summary>
-        /// <param name="path">путь к файлу</param>
+        /// <param name="path">путь к файлу</param  
         /// <returns>список прочитанных строк</returns>
-        List<string> Read(string path);
+        void Read(string path, Action<string> handler);
     }
 }
