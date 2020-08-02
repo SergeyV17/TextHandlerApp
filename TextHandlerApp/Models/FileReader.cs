@@ -17,15 +17,12 @@ namespace TextHandlerApp.Models
         /// <returns>список считанных строк</returns>
         public void Read(string path, Action<string> textLineHandler)
         {
-            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (StreamReader sr = new StreamReader(path))
             {
-                using (StreamReader sr = new StreamReader(path))
+                while (!sr.EndOfStream)
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        string line = sr.ReadLine();
-                        textLineHandler?.Invoke(line);
-                    }
+                    string line = sr.ReadLine();
+                    textLineHandler?.Invoke(line);
                 }
             }
         }
