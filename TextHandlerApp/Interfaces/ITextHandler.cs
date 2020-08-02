@@ -4,7 +4,7 @@ using TextHandlerApp.Models;
 namespace TextHandlerApp.Interfaces
 {
     /// <summary>
-    /// Интерфейс определяющий логику обработки файла
+    /// Интерфейс определяющий логику обработки документа
     /// </summary>
     interface ITextHandler
     {
@@ -17,8 +17,16 @@ namespace TextHandlerApp.Interfaces
         /// <param name="minWordLength">опция удаление слов по заданному количеству символов</param>
         void HandleDocuments(List<Document> documents, string folderPath, Options options);
 
+        /// <summary>
+        /// Метод обработки документа
+        /// </summary>
+        /// <param name="fromPath">путь к файлу</param>
         void HandleDocument(string fromPath);
 
+        /// <summary>
+        /// Метод обработки строки документа
+        /// </summary>
+        /// <param name="line">строка</param>
         void TextLineHandler(string line);
     }
 }

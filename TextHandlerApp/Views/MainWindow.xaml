@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:TextHandlerApp.Views.Validation"
+        WindowStartupLocation="CenterScreen"
         Title="TextHandler"     
         Height="650" Width="500"
         MinHeight="350" MinWidth="600"

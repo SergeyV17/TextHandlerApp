@@ -81,6 +81,7 @@ namespace TextHandlerApp.Models
 
             string handledLine = "";
 
+            // Обработка посимвольно
             for (int i = 0; i < currentLine.Length; i++)
             {
                 CharHandleConditions(completeLine, tempWordLine, currentLine[i], currentIndex: i, lastCharIndex);
@@ -122,6 +123,8 @@ namespace TextHandlerApp.Models
                     // Если сформированное слово больше либо равно минимально допустимой длине слова, то слово добавляется в строку
                     if (tempWordLine.Length >= options.MinWordLength)
                         completeLine.Append(tempWordLine);
+                    else
+                        completeLine.Append(new string(' ', tempWordLine.Length));
                 }
 
                 // Очистка после обработки слова
